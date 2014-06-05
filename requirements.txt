@@ -1,5 +1,7 @@
 beautifulsoup4==4.3.2
+lyricfetch==1.0
 lyricscramble==1.0
+markovchain==1.0
 requests==2.3.0
 tweepy==2.3.0
 wsgiref==0.1.2
