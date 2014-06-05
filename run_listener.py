@@ -1,5 +1,5 @@
 import tweepy
-from tweet_scramble import SongRequestListener, LyricScrambleTwitterClient
+from tweet_scramble import SongRequestHandler
 import os
 
 
@@ -10,15 +10,15 @@ access_token = os.environ['TWITTER_ACCESS_TOKEN']
 access_token_secret = os.environ['TWITTER_ACCESS_TOKEN_SECRET']
 
 # Get authorization from Twitter
-auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_token, access_token_secret)
+oauth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+oauth.set_access_token(access_token, access_token_secret)
 
-# Get the Twitter client
-tweeter = LyricScrambleTwitterClient(auth)
+# Get twitter API
+twitter = tweepy.API(oauth)
 
 # Get stream listener
-listener = SongRequestListener(tweeter)
+listener = SongRequestHandler(twitter)
 
-# Create stream and run
-stream = tweepy.Stream(auth, listener)
-stream.filter(track=['@lyricscramble'])
+# Listen to the user stream
+stream = tweepy.Stream(oauth, listener)
+stream.userstream(oauth, listener)

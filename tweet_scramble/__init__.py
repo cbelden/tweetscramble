@@ -1,2 +1,1 @@
-from stream_handler import SongRequestListener
-from scramble_client import LyricScrambleTwitterClient
+from stream_handler import SongRequestHandler
