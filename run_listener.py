@@ -19,6 +19,6 @@ twitter = tweepy.API(oauth)
 # Get stream listener
 listener = SongRequestHandler(twitter)
 
-# Listen to the user stream
+# Listen to the stream of tweets/events specific to the bot's twitter account
 stream = tweepy.Stream(oauth, listener)
-stream.userstream(oauth, listener)
+stream.userstream(_with='user')

@@ -27,19 +27,22 @@ class SongRequestHandler(tweepy.StreamListener):
         return True
 
     def on_status(self, status):
-
-        # Don't process tweets that we've created
-        if status.user.screen_name == self._screen_name:
-            return True
+        """This method is called whenever the StreamListener receives a new message."""
 
         request = status.text
         sender_handle = status.user.screen_name
-        tweetID = status.id
 
-        print "Recieved a song request: %s" % (request)
+        from_user = sender_handle is not self._screen_name
+        mentions_bot = re.match('@' + self._screen_name, request)
+
+        # Ignore tweets that we've created or tweets that do not mention our handle
+        if not from_user or not mentions_bot:
+            print "Received a tweet, but not a song request: %s" % (request)
+            return True
 
         # Handle incoming song request
-        self._handle_request(request, sender_handle, tweetID)
+        print "Received a song request: %s" % (request)
+        self._handle_request(request, sender_handle, status.id)
 
         return True
 
@@ -58,6 +61,7 @@ class SongRequestHandler(tweepy.StreamListener):
 
         # Attempt to add the song to the scrambler corpus
         if not error_msg and not self._scrambler.add_song(artist, title):
+            print '\tCould not find the song: %s- %s' % (artist, title)
             error_msg = "Sorry @%s, couldn't find the song: %s- %s" % (sender, artist, title)
 
         # Handle any errors that occured; tell sender the request failed
