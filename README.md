@@ -1,7 +1,7 @@
 #tweetscramble
 
 ##About
-tweetscramble is a bot that leverages the functionality in a few of my other projects to listen to
+tweetscramble is a Twitter bot that leverages the functionality in a few of my other projects to listen to
 song requests via Twitter and tweet scrambled phrases based on the lyrics in the
 requested songs.
 
