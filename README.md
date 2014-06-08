@@ -16,6 +16,8 @@ The lyricscramble bot will then tweet a scrambled phrase at you composed of word
 the last three song requests. In the event of a failure, the bot should tweet an
 explanation.
 
+Here's the Twitter <a href="https://twitter.com/lyricscramble">account</a>.
+
 ###How it works
 Using tweepy, I listen to the stream of tweets directed to the Twitter
 handle, @lyricscramble. Upon a received tweet, the song information is extracted from the tweet
