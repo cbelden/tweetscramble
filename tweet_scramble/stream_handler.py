@@ -37,11 +37,9 @@ class SongRequestHandler(tweepy.StreamListener):
 
         # Ignore tweets that we've created or tweets that do not mention our handle
         if not from_user or not mentions_bot:
-            print "Received a tweet, but not a song request: %s" % (request)
             return True
 
         # Handle incoming song request
-        print "Received a song request: %s" % (request)
         self._handle_request(request, sender_handle, status.id)
 
         return True
@@ -49,12 +47,14 @@ class SongRequestHandler(tweepy.StreamListener):
     def _handle_request(self, raw_request, sender, tweetID):
         """Adds the requested song's lyrics to the corpus and (might) tweet a scrambled response based on the corpus."""
 
+        print "Received a song request. Tweet: %s" % (raw_request)
+
         # Store any errors
         error_msg = ''
 
         # Get the request from the raw tweet text
         try:
-            artist, title = self._extract_request(raw_request)
+            artist, title = self._parse_request(raw_request)
         except ValueError, e:
             print '\t%s' % (str(e))
             error_msg = "Sorry @%s, your song request was not formatted correctly." % (sender)
@@ -81,7 +81,7 @@ class SongRequestHandler(tweepy.StreamListener):
         if self._time_to_tweet():
             self._tweet_response(sender, tweetID)
 
-    def _extract_request(self, raw):
+    def _parse_request(self, raw):
         """Given a raw request string, returns the artist and song."""
 
         #TODO: the text of the tweet contains encoded punctuation. i.e & is amp
